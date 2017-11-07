@@ -1,8 +1,10 @@
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using EFCoreDbRepo;
+using EFCoreDbRepo.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.DbRepo.Tests.ConcreteImplementations
@@ -19,10 +21,10 @@ namespace EFCore.DbRepo.Tests.ConcreteImplementations
             }
         }
 
-        public override Test GetByIdEager(object id)
+        public override async Task<Test> GetByIdEager(object id)
         {
             var userPrinciple = DbSet.Where( e => e.Id == (Guid)id).First();
-            return MapEntityToDomain(userPrinciple);
+            return await Task.Run( () => MapEntityToDomain(userPrinciple));
         }
     }
 }

@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using EFCoreDbRepo.EntityBase;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreDbRepo
+namespace EFCoreDbRepo.Repository
 {
     public abstract class Repository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class
     {
@@ -36,15 +37,15 @@ namespace EFCoreDbRepo
             DbSet = context.Set<TEntity>();
         }
         
-        public abstract TDomain GetByIdEager(object id);
+        public abstract Task<TDomain> GetByIdEager(object id);
 
-        public virtual TDomain GetById(object id) {
-            return MapEntityToDomain(DbSet.Find(id));
+        public virtual async Task<TDomain> GetById(object id) {
+            return MapEntityToDomain(await DbSet.FindAsync(id));
         }
 
-        public virtual void Insert(TDomain domain_object) {
+        public virtual async Task Insert(TDomain domain_object) {
             var entity = Mapper.Map(domain_object, domain_object.GetType(), typeof(TEntity));
-            context.Add(entity);
+            await context.AddAsync(entity);
             Mapper.Map(entity, domain_object, entity.GetType(), typeof(TDomain));
         }
 

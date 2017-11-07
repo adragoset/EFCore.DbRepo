@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using EFCoreDbRepo;
 using EFCoreDbRepo.Mapping;
+using EFCoreDbRepo.Repository;
 using EFCoreDbRepo.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 

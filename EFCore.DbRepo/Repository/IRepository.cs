@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace EFCoreDbRepo.Repository {
+namespace EFCoreDbRepo {
     public interface IRepository<TDomain> : IDisposable {
         IQueryable<TDomain> DomainSet { get; }
 

@@ -7,7 +7,7 @@ using AutoMapper.QueryableExtensions;
 using EFCoreDbRepo.EntityBase;
 using Microsoft.EntityFrameworkCore;
 
-namespace EFCoreDbRepo.Repository
+namespace EFCoreDbRepo
 {
     public abstract class Repository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class
     {

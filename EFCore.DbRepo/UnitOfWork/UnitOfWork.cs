@@ -2,7 +2,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
-using EFCoreDbRepo.Repository;
 
 namespace EFCoreDbRepo.UnitOfWork {
     public abstract class UnitOfWork<TDomain> : IUnitOfWork<TDomain> {

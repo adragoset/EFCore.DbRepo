@@ -1,7 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Storage;
-using EFCoreDbRepo.Repository;
 
 namespace EFCoreDbRepo.UnitOfWork
 {

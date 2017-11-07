@@ -1,8 +1,8 @@
 using System;
 using System.Linq;
 using System.Reflection;
-using EFCore.DbRepo.Mapping;
-using EFCoreDbRepo.Repository;
+using EFCoreDbRepo;
+using EFCoreDbRepo.Mapping;
 using EFCoreDbRepo.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 

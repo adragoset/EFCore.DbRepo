@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreDbRepo.Repository
 {
-    public abstract class GenericRepository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class
+    public abstract class Repository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class
     {
         protected IMapper Mapper { get;  private set; }
         protected DbSet<TEntity> DbSet { get;  private set; }
@@ -25,7 +25,7 @@ namespace EFCoreDbRepo.Repository
 
         public abstract IQueryable<TDomain> EagerLoadedDomainSet { get; }
 
-        public GenericRepository(DbContext db, IMapper mapper, IEntityDeepUpdater<TDomain, TEntity> updater) {
+        public Repository(DbContext db, IMapper mapper, IEntityDeepUpdater<TDomain, TEntity> updater) {
             if(!typeof(IAggregateRoot).GetTypeInfo().IsAssignableFrom(typeof(TEntity).Ge‌​tTypeInfo())) {
                 throw new InvalidOperationException("Type TEntity must implement IAggregateRoot");
             }

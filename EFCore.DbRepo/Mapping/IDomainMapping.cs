@@ -1,4 +1,4 @@
-namespace EFCore.DbRepo.Mapping
+namespace EFCoreDbRepo.Mapping
 {
     public interface IDomainMapping
     {

@@ -2,7 +2,7 @@ using System.Linq;
 using System.Reflection;
 using AutoMapper;
 
-namespace EFCore.DbRepo.Mapping
+namespace EFCoreDbRepo.Mapping
 {
     public class MappingRegistrator {
         public static void RegisterMappings() {

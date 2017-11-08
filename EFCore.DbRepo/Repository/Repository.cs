@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EFCoreDbRepo.Repository
 {
-    public abstract class Repository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class
+    public abstract class Repository<TDomain, TEntity> : IRepository<TDomain> where TEntity : class, IAggregateRoot
     {
         protected IMapper Mapper { get;  private set; }
         protected DbSet<TEntity> DbSet { get;  private set; }
@@ -27,9 +27,6 @@ namespace EFCoreDbRepo.Repository
         public abstract IQueryable<TDomain> EagerLoadedDomainSet { get; }
 
         public Repository(DbContext db, IMapper mapper, IEntityDeepUpdater<TDomain, TEntity> updater) {
-            if(!typeof(IAggregateRoot).GetTypeInfo().IsAssignableFrom(typeof(TEntity).Ge‌​tTypeInfo())) {
-                throw new InvalidOperationException("Type TEntity must implement IAggregateRoot");
-            }
 
             this.context = db;
             this.Mapper = mapper;
@@ -50,7 +47,7 @@ namespace EFCoreDbRepo.Repository
         }
 
         public virtual void Update(TDomain domain_object) {
-            var tracked_entity = DbSet.Find(((IAggregateRoot)domain_object).Id);
+            var tracked_entity = DbSet.Find(((IAggregateRoot)(Mapper.Map<TEntity>(domain_object))).Id);
             if(tracked_entity != null){
                 UpdateEntity(domain_object, tracked_entity);
                 context.Update(tracked_entity);

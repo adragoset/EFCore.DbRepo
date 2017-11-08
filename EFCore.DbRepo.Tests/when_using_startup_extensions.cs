@@ -11,7 +11,6 @@ namespace EFCore.DbRepo.Tests
 {
     public class when_using_startup_extensions: with_a_service_collection_and_test_db_context
     {
-        private object MapperConfiguation;
         private Assembly _assembly;
         private MapperConfiguration mapperConfig;
 

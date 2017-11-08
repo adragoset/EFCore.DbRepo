@@ -8,6 +8,8 @@ namespace EFCore.DbRepo.Tests.ConcreteImplementations
     {
         public void Update(Test source, TestRecord dest, IMapper mapper)
         {
+            var entity = mapper.Map<Test, TestRecord>(source);
+            mapper.Map(entity, dest, entity.GetType(), dest.GetType());
         }
     }
 }

@@ -11,7 +11,7 @@ namespace EFCore.DbRepo.Tests.ConcreteImplementations
 {
     public class TestRepo : Repository<Test, TestRecord>
     {
-        public TestRepo(DbContext db, IMapper mapper, IEntityDeepUpdater<Test, TestRecord> updater) : base(db, mapper, updater)
+        public TestRepo(TestRecordContext db, IMapper mapper, IEntityDeepUpdater<Test, TestRecord> updater) : base(db, mapper, updater)
         {
         }
 

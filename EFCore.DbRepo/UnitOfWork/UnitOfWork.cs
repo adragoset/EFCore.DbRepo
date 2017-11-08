@@ -35,7 +35,6 @@ namespace EFCoreDbRepo.UnitOfWork {
 
         public void Dispose() {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
         }
 
         public void Save() {

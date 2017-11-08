@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using EFCoreDbRepo;
 using EFCoreDbRepo.Mapping;
 using EFCoreDbRepo.Repository;
@@ -9,50 +11,85 @@ using Microsoft.Extensions.DependencyInjection;
 
 public static partial class StartupExtensions
 {
-    public static void AddRepositoryMappings()
+    public static IEnumerable<Type> AddRepositoryMappings(Assembly assembly)
     {
-        MappingRegistrator.RegisterMappings();
-    }
-    public static void AddRepositoryFramework<T>(this IServiceCollection services)
-    {
-        RegisterRepository<T>(services);
-        RegisterUnitOfWOrk<T>(services);
-    }
+        var assemblies = assembly.GetReferencedAssemblies();
 
-    private static void RegisterUnitOfWOrk<T>(IServiceCollection services)
-    {
-        var all = Assembly
-                   .GetEntryAssembly()
-                   .GetReferencedAssemblies()
-                   .Select(Assembly.Load)
-                   .SelectMany(x => x.DefinedTypes)
-                   .Where(type => typeof(IUnitOfWork<T>).GetTypeInfo().IsAssignableFrom(type.AsType()));
-
-        foreach (var ti in all)
+        foreach (var ti in assembly.DefinedTypes)
         {
-            var t = ti.AsType();
-            if (t.Equals(typeof(IUnitOfWork<T>)))
+            if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
             {
-                services.AddScoped(t, t.DeclaringType);
+                yield return ti.AsType();
+            }
+        }
+
+        foreach (var assemblyName in assemblies)
+        {
+            assembly = Assembly.Load(assemblyName);
+
+            foreach (var ti in assembly.DefinedTypes)
+            {
+                if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
+                {
+                    yield return ti.AsType();
+                }
+            }
+        }
+    }
+    public static void AddRepositoryFramework<T>(this IServiceCollection services, Assembly assembly)
+    {
+        RegisterRepository<T>(assembly, services);
+        RegisterUnitOfWOrk<T>(assembly, services);
+    }
+
+    private static void RegisterUnitOfWOrk<T>(Assembly assembly, IServiceCollection services)
+    {
+        var assemblies = assembly.GetReferencedAssemblies();
+
+        foreach (var ti in assembly.DefinedTypes)
+        {
+            if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
+            {
+                services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
+            }
+        }
+
+        foreach (var assemblyName in assemblies)
+        {
+            assembly = Assembly.Load(assemblyName);
+
+            foreach (var ti in assembly.DefinedTypes)
+            {
+                if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
+                {
+                    services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
+                }
             }
         }
     }
 
-    private static void RegisterRepository<T>(IServiceCollection services)
+    private static void RegisterRepository<T>(Assembly assembly, IServiceCollection services)
     {
-        var all = Assembly
-                   .GetEntryAssembly()
-                   .GetReferencedAssemblies()
-                   .Select(Assembly.Load)
-                   .SelectMany(x => x.DefinedTypes)
-                   .Where(type => typeof(IRepository<T>).GetTypeInfo().IsAssignableFrom(type.AsType()));
+        var assemblies = assembly.GetReferencedAssemblies();
 
-        foreach (var ti in all)
+        foreach (var ti in assembly.DefinedTypes)
         {
-            var t = ti.AsType();
-            if (t.Equals(typeof(IRepository<T>)))
+            if (ti.ImplementedInterfaces.Contains(typeof(IRepository<T>)))
             {
-                services.AddScoped(t, t.DeclaringType);
+                services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
+            }
+        }
+
+        foreach (var assemblyName in assemblies)
+        {
+            assembly = Assembly.Load(assemblyName);
+
+            foreach (var ti in assembly.DefinedTypes)
+            {
+                if (ti.ImplementedInterfaces.Contains(typeof(IRepository<T>)))
+                {
+                    services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
+                }
             }
         }
     }

@@ -1,27 +1,38 @@
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 
 namespace EFCoreDbRepo.Mapping
 {
-    public class MappingRegistrator {
-        public static void RegisterMappings() {
-            var all = Assembly
-               .GetEntryAssembly()
-               .GetReferencedAssemblies()
-               .Select(Assembly.Load)
-               .SelectMany(x => x.DefinedTypes)
-               .Where(type => typeof(IDomainMapping).GetTypeInfo().IsAssignableFrom(type.AsType()));
+    public class MappingRegistrator
+    {
+        public static List<Type> RegisterMappings(Assembly assembly) {
+            return GetAll(assembly).ToList();
+        }
 
-            foreach (var ti in all)
+        public static IEnumerable<Type> GetAll(Assembly assembly)
+        {
+            var assemblies = assembly.GetReferencedAssemblies();
+
+            foreach (var ti in assembly.DefinedTypes)
             {
-                var t = ti.AsType();
-                if (t.Equals(typeof(IDomainMapping)))
+                if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
                 {
-                    Mapper.Initialize(cfg =>
+                    yield return ti.AsType();
+                }
+            }
+
+            foreach (var assemblyName in assemblies) {
+                assembly = Assembly.Load(assemblyName);
+
+                foreach (var ti in assembly.DefinedTypes)
+                {
+                    if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
                     {
-                        cfg.AddProfiles(t); // Initialise each Profile classe
-                    });
+                        yield return ti.AsType();
+                    }
                 }
             }
         }

@@ -40,16 +40,16 @@ public static partial class StartupExtensions
     {
         RegisterEntityDeepUpdaters(assembly, services);
         RegisterRepository<T>(assembly, services);
-        RegisterUnitOfWOrk<T>(assembly, services);
+        RegisterUnitOfWork<T>(assembly, services);
     }
 
-    private static void RegisterUnitOfWOrk<T>(Assembly assembly, IServiceCollection services)
+    private static void RegisterUnitOfWork<T>(Assembly assembly, IServiceCollection services)
     {
         var assemblies = assembly.GetReferencedAssemblies();
 
         foreach (var ti in assembly.DefinedTypes)
         {
-            if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
+            if (ti.ImplementedInterfaces.Contains(typeof(IUnitOfWork<T>)))
             {
                 services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
             }
@@ -61,7 +61,7 @@ public static partial class StartupExtensions
 
             foreach (var ti in assembly.DefinedTypes)
             {
-                if (ti.ImplementedInterfaces.Contains(typeof(IDomainMapping)))
+                if (ti.ImplementedInterfaces.Contains(typeof(IUnitOfWork<T>)))
                 {
                     services.AddScoped(ti.BaseType.GetInterfaces()[0], ti.AsType());
                 }

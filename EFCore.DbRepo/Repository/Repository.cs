@@ -62,9 +62,9 @@ namespace EFCoreDbRepo.Repository
             TEntity entityToDelete = DbSet.Find(id);
             if (context.Entry(entityToDelete).State == EntityState.Detached)
             {
-                DbSet.Attach(entityToDelete);
+                context.Attach(entityToDelete);
             }
-            DbSet.Remove(entityToDelete);
+            context.Remove(entityToDelete);
         }
 
         public void Dispose() {

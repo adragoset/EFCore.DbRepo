@@ -7,7 +7,7 @@ namespace EFCore.DbRepo.Tests.ConcreteImplementations
 {
     public class TestUnitOfWork : UnitOfWork<Test>
     {
-        public TestUnitOfWork(DbContext context, IRepository<Test> repository) : base(context, repository)
+        public TestUnitOfWork(TestRecordContext context, IRepository<Test> repository) : base(context, repository)
         {
         }
     }

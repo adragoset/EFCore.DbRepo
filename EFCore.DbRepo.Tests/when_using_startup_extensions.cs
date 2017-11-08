@@ -4,6 +4,7 @@ using System.Reflection;
 using AutoMapper;
 using EFCore.DbRepo.Tests.ConcreteImplementations;
 using EFCoreDbRepo.Repository;
+using EFCoreDbRepo.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -33,10 +34,17 @@ namespace EFCore.DbRepo.Tests
         }
 
         [Fact]
-        public void it_adds_the_repositoriy() {
+        public void it_adds_the_repository() {
             
             var repo = _container.GetService<IRepository<Test>>();
             Assert.NotNull(repo);
+        }
+
+        [Fact]
+        public void it_adds_the_unit_of_work() {
+            
+            var uow = _container.GetService<IUnitOfWork<Test>>();
+            Assert.NotNull(uow);
         }
     }
 }

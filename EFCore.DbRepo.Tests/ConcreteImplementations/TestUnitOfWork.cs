@@ -1,7 +1,5 @@
-using EFCoreDbRepo;
 using EFCoreDbRepo.Repository;
 using EFCoreDbRepo.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.DbRepo.Tests.ConcreteImplementations
 {

@@ -21,7 +21,8 @@ namespace EFCore.DbRepo.Tests
         public when_using_startup_extensions() {
             var test = new TestRecordMapping();
             _assembly =  test.GetType().Assembly; //make sure the assembly is loaded.
-            mapperConfig = new MapperConfiguration(cfg => cfg.AddProfiles(StartupExtensions.AddRepositoryMappings(test.GetType().Assembly)));
+            var types = StartupExtensions.AddRepositoryMappings(test.GetType().Assembly).Select( t => { return (Profile)Activator.CreateInstance(t);});
+            mapperConfig = new MapperConfiguration(cfg => cfg.AddProfiles(types));
             _mapper = mapperConfig.CreateMapper();
             _services.AddSingleton<IMapper>(_mapper);
             _services.AddRepositoryFramework<Test>(_assembly);

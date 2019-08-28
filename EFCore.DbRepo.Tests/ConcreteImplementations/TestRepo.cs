@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using EFCoreDbRepo;
 using EFCoreDbRepo.Repository;
-using Microsoft.EntityFrameworkCore;
 
 namespace EFCore.DbRepo.Tests.ConcreteImplementations
 {

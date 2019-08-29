@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>AD.EFCoreRepositoryScaffold</PackageId>
-    <PackageVersion>1.0.5</PackageVersion>
+    <PackageVersion>1.1.1</PackageVersion>
     <Authors>Alexander Dragoset</Authors>
     <Description>Generic scaffolding for the repository pattern and unit of work for EFCore.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageReleaseNotes>Adding Tests.</PackageReleaseNotes>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Copyright/>
     <PackageTags>Add test for UnitOfWork Startup Extensions</PackageTags>
   </PropertyGroup>

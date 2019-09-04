@@ -1,5 +1,4 @@
 using AutoMapper;
-using EFCoreDbRepo;
 using EFCoreDbRepo.Repository;
 
 namespace EFCore.DbRepo.Tests.ConcreteImplementations

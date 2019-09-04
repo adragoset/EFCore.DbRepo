@@ -24,5 +24,15 @@ namespace EFCore.DbRepo.Tests.ConcreteImplementations
             var userPrinciple = DbSet.Where( e => e.Id == (Guid)id).First();
             return await Task.Run( () => MapEntityToDomain(userPrinciple));
         }
+
+        public override Task Insert(Test domain_object)
+        {
+            return this.DefaultInsert(domain_object);
+        }
+
+        public override void Update(Test domain_object)
+        {
+            this.DefaultUpdate(domain_object);
+        }
     }
 }

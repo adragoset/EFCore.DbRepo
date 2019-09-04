@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>AD.EFCoreRepositoryScaffold</PackageId>
-    <PackageVersion>1.1.1</PackageVersion>
+    <PackageVersion>1.1.2</PackageVersion>
     <Authors>Alexander Dragoset</Authors>
     <Description>Generic scaffolding for the repository pattern and unit of work for EFCore.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
